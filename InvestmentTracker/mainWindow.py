@@ -1,6 +1,10 @@
 from PySide6.QtWidgets import QMainWindow, QPushButton, QFileDialog, QToolBar, QStatusBar
-from PySide6.QtCore import QSize
-from PySide6.QtGui import QAction
+from PySide6.QtCore import QSize, QPointF
+from PySide6.QtGui import QAction, QPainter
+from PySide6.QtCharts import QChart, QChartView, QLineSeries
+from graph import Chart
+
+from investmentData import InvestmentData
 
 class MainWindow(QMainWindow):
     def __init__(self, app):
@@ -33,6 +37,13 @@ class MainWindow(QMainWindow):
 
         #status bar
         self.setStatusBar(QStatusBar(self))
+
+        path = "C:\\Users\\Trevor\\Dropbox\\My PC (DESKTOP-7CBII96)\\Documents\\Test\\test.txt"
+        investmentData = InvestmentData()
+        investmentData = Chart.file_reader(path)
+
+        chartData = Chart(investmentData)
+        self.setCentralWidget(chartData._chart_view)
 
     def quit_app(self):
         self.app.quit()
